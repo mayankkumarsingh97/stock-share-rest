@@ -1,4 +1,4 @@
-var connectToOracle = require('../../config/config')
+var connectToOracle = require('../../config/db')
 
 // -------------------------------
 //To get All escoshare users
