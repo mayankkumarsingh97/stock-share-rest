@@ -19,7 +19,9 @@ const loginController = async (req, res) => {
     //
     try {
         await connectToOracle().then((connection) => {
-            connection.execute(`SELECT * FROM user_tab WHERE USER_ID = ${user_id} AND USER_PASSWORD = '${user_password}'`, (error, results) => {
+            const query = `SELECT * FROM user_tab WHERE USER_ID = :user_id AND USER_PASSWORD = :user_password`;
+            //
+            connection.execute(query, [user_id, user_password], (error, results) => {
                 //
                 if (error) res.json({ error: true, message: 'Internal server error ' })
                 //
@@ -29,7 +31,7 @@ const loginController = async (req, res) => {
                         for (const row of results.rows) {
                             profile = { user_id: row[0], username: row[1] }
                         }
-
+                        //
                         const token = jwt.sign({ username: profile.username, userId: profile.id }, 'Mh!9968@#Esc', { expiresIn: '1h' })
 
                         return res.json({ error: false, token, data: [{ user_id: profile.user_id, username: profile.username }], message: 'success' });

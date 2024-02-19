@@ -6,13 +6,16 @@ var connectToOracle = require('../../config/db')
 const userController = (req, res) => {
     try {
         connectToOracle().then((connection) => {
-            connection.execute(`SELECT * FROM user_tab`, (err, result, fields) => {
-                // if (err) throw err;
-                // console.log(result.rows);
+            connection.execute(`SELECT * FROM user_tab`, (err, results, fields) => {
+                //
                 if (!err) {
+                    const result = {};
+                    results.metaData.forEach((meta, index) => {
+                        result[meta.name] = results.rows[0][index];
+                    });
                     response = {
                         err: false,
-                        data: result.rows,
+                        data: [result],
                         message: 'success'
                     }
                     res.send(JSON.stringify(response))
@@ -20,7 +23,6 @@ const userController = (req, res) => {
                 } else {
                     response = {
                         err: true,
-                        data: [],
                         message: 'fail'
                     }
                     res.send(JSON.stringify(response))
