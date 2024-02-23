@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { response } = require('express');
 
 
-
+//
 //
 // To get Login escoshare users ---
 // --------------------------------
@@ -32,7 +32,7 @@ const loginController = async (req, res) => {
                             profile = { user_id: row[0], username: row[1] }
                         }
                         //
-                        const token = jwt.sign({ username: profile.username, userId: profile.id }, 'Mh!9968@#Esc', { expiresIn: '1h' })
+                        const token = jwt.sign({ username: profile.username, userId: profile.id }, 'Mh!9968@#Esc', { expiresIn: '6h' })
 
                         return res.json({ error: false, token, data: [{ user_id: profile.user_id, username: profile.username }], message: 'success' });
                     }

@@ -1,80 +1,119 @@
+const { query } = require('express');
 const connectToOracle = require('../../config/db')
+const oracledb = require('oracledb');
 
+//
+//
 const nameAddressQuery = (req, res) => {
     //
     const { folio_no, name_first, name_middle, name_last } = req.body
     //
-    console.log(folio_no, 'folio_no')
-    console.log(name_first, 'meeting_date')
-    console.log(name_middle, 'name_middle')
-    console.log(name_last, 'name_last')
-
-    if (!folio_no || !name_first) {
+    if (!folio_no) {
+        //
         const response = {
             err: true,
-            data: [],
-
+            message: 'Err: folio_no missing or name missing'
         }
-        return res.send(JSON.stringify('Err: folio_no missing or name missing'))
+        return res.send(JSON.stringify(response))
     }
 
     try {
         connectToOracle().then((connection) => {
             //
-            let query = `select fm.*, htb.holding from folio_master fm 
-            Left Join holding_tab htb on fm.FOLIO_NUMBER = htb.folio_no  
-            WHERE fm.SECURITY_CODE= '1'`;
+            const query = `
+            select   fm.folio_number, fm.name_first, fm.name_middle, fm.name_last, fm.ADD1, htb.HOLDING,
+            rownum as run  from folio_master fm Left Join holding_tab  htb on 
+            fm.FOLIO_NUMBER = htb.folio_no 
+            where rownum < = 100 AND htb.security_code =1 
+            `
             //
-            // let query = `select fm.*, htb.holding from folio_mas fm `;
+            const folio_filter = `fm.folio_number LIKE '%${folio_no}%'`
+            const fs_name_filter = `fm.name_first LIKE '%${name_first}%'`
+            const ls_name_filter = `fm.name_last LIKE '%${name_last}%'`
+            const md_name_filter = `fm.name_middle LIKE '%${name_middle}%'`
             //
-            connection.execute(`${query}`, [folio_no], (err, results) => {
-                //
-                if (!err) {
-                    if (results) {
-                        const result = {};
-                        results.metaData.forEach((meta, index) => {
-                            result[meta.name] = results.rows[0][index];
-                        });
-                        //
-                        //
-                        response = {
-                            err: false,
-                            data: {
-                                dp_id: "",
-                                client_id: "",
-                                folio_det: result,
-                                holding_det: {
+            //
+            connection.execute(query,
+                (err, results) => {
+                    //
+                    if (!err) {
+                        if (results.rows.length > 0) {
+                            if (folio_filter + fs_name_filter + ls_name_filter + md_name_filter) {
+                                return true
+                            }
+                            const result = results.rows.map(function (row, index) {
+                                const arr = results.metaData.map((data, index) => index)
+                                return {
+                                    name_first: row[0],
+                                    name_first: row[1],
+                                    name_last: row[2],
+                                    name_middle: row[3],
+                                    ADD1: row[4],
+                                    holding: row[5],
+                                };
+                            });
+                            //
+                            //
+                            response = {
+                                err: false, data: result,
+                                message: 'success!'
+                            }
+                            //
+                            res.status(200).json(response);
 
-                                }
-                            },
-                            message: 'success!'
+                        }//if no data aga. input.....
+                        else {
+                            response = {
+                                err: false,
+                                message: 'no data found/ check folio_no or other inputs'
+                            }
+                            res.json(response)
                         }
 
-                        res.send(JSON.parse(JSON.stringify(response)))
-
-                    } else {
+                    }//if not err
+                    else {
+                        console.log(err, 'err')
                         response = {
-                            err: false,
-                            message: 'check folio no/ no data found!'
+                            err: true,
+                            data: [],
+                            message: 'fail'
                         }
-                        res.send(JSON.stringify(response))
+                        res.status(400).send(JSON.stringify(response))
                     }
-
-                } else {
-                    response = {
-                        err: true,
-                        data: [],
-                        message: 'fail'
-                    }
-                    res.send(JSON.stringify(response))
-                }
-            });
+                });
 
         });
 
     } catch (err) {
         console.log('Err', + err)
     }
+
+
+    //
+    //
+    // let query = `select  fm.*, htb.* , rownum as run  from folio_master fm Left Join holding_tab  htb on fm.FOLIO_NUMBER = htb.folio_no where rownum < =50 AND htb.security_code ='1'`;
+    //
+    //
+
+
+
+    // let query = `
+    // select  fm.folio_number, fm.name_last, fm.name_middle, fm.name_last, fm.ADD1, htb.HOLDING,
+    // rownum as run  from folio_master fm Left Join holding_tab  htb on 
+    // fm.FOLIO_NUMBER = htb.folio_no 
+    // where rownum < = 20 AND htb.security_code = 1 AND (fm.name_first LIKE ? OR ='')
+    // `
+
+    // const query = `
+    // SELECT fm.*, htb.holding 
+    // FROM folio_mas fm 
+    // LEFT JOIN holding_tab htb ON fm.FOLIO_NUMBER = htb.folio_no  
+    // WHERE fm.security_code = '1' 
+    // AND (fm.FOLIO_NUMBER LIKE ? OR ? = '')
+    // OR (fm.NAME_FIRST LIKE ? OR ? = '')
+    // OR (fm.NAME_MIDDLE LIKE ? OR ? = '')
+    // OR (fm.NAME_LAST LIKE ? OR ? = '')
+    // `
 
 }
 

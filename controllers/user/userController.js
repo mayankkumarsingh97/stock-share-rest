@@ -43,7 +43,9 @@ const userControllerID = (req, res) => {
     const id = req.params.id
     try {
         connectToOracle().then((connection) => {
-            connection.execute(`SELECT * FROM user_tab where USER_ID = ${id}`, (err, result, fields) => {
+            const query = `SELECT * FROM user_tab where USER_ID = :id`
+            //
+            connection.execute(query, [id], (err, result, fields) => {
                 if (!err) {
                     if (result.rows.length > 0) {
                         response = {

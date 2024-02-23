@@ -19,7 +19,8 @@ router.get('/escoshare/user/:id', verifyJsonWebToken, userControllerID)
 //
 router.post('/folio/holding/', verifyJsonWebToken, folioController)
 router.post('/name/address/holding/', verifyJsonWebToken, nameAddressQuery)
-router.post('/security/type', verifyJsonWebToken, () => { })
+//
+router.post('/security/type/', verifyJsonWebToken, () => { })
 
 //
 //
