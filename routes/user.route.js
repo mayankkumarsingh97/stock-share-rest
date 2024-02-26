@@ -6,7 +6,7 @@ const { userController, userControllerID } = require('../controllers/user/userCo
 const { loginController } = require('../controllers/user/loginController')
 const { folioController } = require('../controllers/foliomaster/folioController')
 const { nameAddressQuery } = require('../controllers/foliomaster/nameAddHoldController')
-
+const { securityTypeCtrl } = require('../controllers/foliomaster/securityTypeCtrl')
 //
 //---------------Login API----------------
 router.post('/escoshare/login/', loginController)
@@ -20,7 +20,7 @@ router.get('/escoshare/user/:id', verifyJsonWebToken, userControllerID)
 router.post('/folio/holding/', verifyJsonWebToken, folioController)
 router.post('/name/address/holding/', verifyJsonWebToken, nameAddressQuery)
 //
-router.post('/security/type/', verifyJsonWebToken, () => { })
+router.post('/security/type/', verifyJsonWebToken, securityTypeCtrl)
 
 //
 //
