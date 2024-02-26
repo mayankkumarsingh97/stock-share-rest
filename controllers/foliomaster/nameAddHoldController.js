@@ -38,9 +38,9 @@ const nameAddressQuery = (req, res) => {
                     //
                     if (!err) {
                         if (results.rows.length > 0) {
-                            if (folio_filter + fs_name_filter + ls_name_filter + md_name_filter) {
-                                return true
-                            }
+                            // if (folio_filter + fs_name_filter + ls_name_filter + md_name_filter) {
+                            //     return false
+                            // }
                             const result = results.rows.map(function (row, index) {
                                 const arr = results.metaData.map((data, index) => index)
                                 return {
@@ -70,7 +70,7 @@ const nameAddressQuery = (req, res) => {
                             res.json(response)
                         }
 
-                    }//if not err
+                    }//if not err ......
                     else {
                         console.log(err, 'err')
                         response = {
@@ -94,8 +94,6 @@ const nameAddressQuery = (req, res) => {
     // let query = `select  fm.*, htb.* , rownum as run  from folio_master fm Left Join holding_tab  htb on fm.FOLIO_NUMBER = htb.folio_no where rownum < =50 AND htb.security_code ='1'`;
     //
     //
-
-
 
     // let query = `
     // select  fm.folio_number, fm.name_last, fm.name_middle, fm.name_last, fm.ADD1, htb.HOLDING,
