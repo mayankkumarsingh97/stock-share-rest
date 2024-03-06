@@ -13,14 +13,14 @@ router.post('/escoshare/login/', loginController)
 //
 //
 //--------- Routes i.e endpoints escoshare--------
-router.get('/escoshare/users/', verifyJsonWebToken, userController)
-router.get('/escoshare/user/:id', verifyJsonWebToken, userControllerID)
+router.get('/escoshare/users/', userController)
+router.get('/escoshare/user/:id', userControllerID)
 //
 //
-router.post('/folio/holding/', verifyJsonWebToken, folioController)
-router.post('/name/address/holding/', verifyJsonWebToken, nameAddressQuery)
+router.post('/folio/holding/', folioController)
+router.post('/name/address/holding/', nameAddressQuery)
 //
-router.post('/security/type/', verifyJsonWebToken, securityTypeCtrl)
+router.post('/security/type/', securityTypeCtrl)
 
 //
 //

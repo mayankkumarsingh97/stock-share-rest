@@ -56,7 +56,7 @@ const folioController = (req, res) => {
 
                                 } else {
                                     response = {
-                                        err: false,
+                                        err: true,
                                         message: 'check folio no/ no data found !'
                                     }
                                     res.send(JSON.stringify(response))
@@ -115,7 +115,7 @@ const folioController = (req, res) => {
 
                                 } else {
                                     response = {
-                                        err: false,
+                                        err: true,
                                         message: 'check folio no/ no data found !'
                                     }
                                     res.send(JSON.stringify(response))
@@ -173,7 +173,7 @@ const folioController = (req, res) => {
 
                             } else {
                                 response = {
-                                    err: false,
+                                    err: true,
                                     message: 'check folio no/ no data found !'
                                 }
                                 res.send(JSON.stringify(response))

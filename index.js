@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
 const multer = require('multer')
+var cors = require('cors')
 const upload = multer();
 const Routes = require('./routes/user.route')
-
+//
+app.use(cors())
+//
 app.use(upload.none());
 const bodyParser = require('body-parser');
 
