@@ -13,7 +13,7 @@ const nameAddressQuery = (req, res) => {
     //
     //
     if (!folio_no && !name_first && !name_middle && !name_last && !holding) {
-
+        //
         const response = {
             err: true,
             message: 'Err: folio_no missing or name missing'

@@ -1,7 +1,7 @@
 {
   "name": "oracle-db",
   "version": "1.0.0",
-  "description": "test purpose for testing oracle db connection",
+  "description": "Eshare project",
   "main": "index.js",
   "scripts": {
     "start": "main",

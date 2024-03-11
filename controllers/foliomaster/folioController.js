@@ -20,10 +20,11 @@ const folioController = (req, res) => {
     try {
         connectToOracle().then((connection) => {
             let query = `SELECT * FROM folio_master where folio_number=:folio_no`;
+            // nsdl_dcf_mast
+
             //
-            let query1 = `SELECT dp_id, client_id FROM cdsl_dcf_mast WHERE folio_no=:folio_no`
-            //
-            if (folio_no > 500000 && folio_no < 9999999) {
+            if (folio_no > 700000 && folio_no < 9999999) {
+                let query1 = `SELECT dp_id, client_id FROM nsdl_dcf_mast WHERE folio_no=:folio_no`
                 connection.execute(query1, [folio_no], (err, results) => {
 
                     const result = {};
@@ -83,7 +84,8 @@ const folioController = (req, res) => {
 
                 });
             } else if (folio_no > 401000 && folio_no < 700000) {
-                connection.execute(query1, [folio_no], (err, results) => {
+                let query2 = `SELECT dp_id, client_id FROM cdsl_dcf_mast WHERE folio_no=:folio_no`
+                connection.execute(query2, [folio_no], (err, results) => {
 
                     const result = {};
                     results.metaData.forEach((meta, index) => {
