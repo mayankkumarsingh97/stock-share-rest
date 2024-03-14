@@ -10,37 +10,36 @@ const certMastCtrl = (req, res) => {
     const { transfer_number, transfer_date } = req.body
     const { seller_folio } = req.body
 
-    // console.log(folio_no, 'folio_no')
-    // console.log(security_code, 'security_code')
-    // console.log(certificate_no, 'certificate_no')
-    // console.log(tag, 'tag')
-    // console.log(dist_from, 'dist_from')
-    // console.log(dist_to, 'dist_to')
-    // console.log(transfer_number, 'transfer_number')
-    // console.log(transfer_date, 'transfer_date')
-    // console.log(seller_folio, 'seller_folio')
+    console.log(folio_no, 'folio_no')
+    console.log(security_code, 'security_code')
+    console.log(certificate_no, 'certificate_no')
+    console.log(tag, 'tag')
+    console.log(dist_from, 'dist_from')
+    console.log(dist_to, 'dist_to')
+    console.log(transfer_number, 'transfer_number')
+    console.log(transfer_date, 'transfer_date')
+    console.log(seller_folio, 'seller_folio')
 
     try {
         connectToOracle().then((connection) => {
             //
             let query = `
             SELECT no_of_sec,folio_no,certificate_number,distinctive_no_to,distinctive_no_from,transfer_number,transfer_date,CURR_STATUS,PREV_FOLIO_NUMBER
-            FROM certificate_master WHERE rownum < = 200 AND folio_no=:folio_no AND security_code=:security_code
+            FROM certificate_master WHERE rownum < = 100 AND folio_no=:folio_no AND security_code=:security_code
             `
             //
             const _qu_certificate_number_FIL = `AND certificate_number=${certificate_no}`
             if (certificate_no) query += _qu_certificate_number_FIL
             //
             const _qu_tag_FIL = `AND CURR_STATUS='${tag}'`
-            if (tag) {
-                query += _qu_tag_FIL
-            }
+            if (tag) query += _qu_tag_FIL
             //
             const _qu_transfer_number_FIL = `AND transfer_number=${transfer_number}`
-            if (transfer_number) {
-                query += _qu_transfer_number_FIL
-            }
-
+            if (transfer_number) query += _qu_transfer_number_FIL
+            //
+            //
+            if (dist_from && dist_to) query += `AND distinctive_no_to >=${dist_to} and distinctive_no_from <= ${dist_from}`;
+            //
             //
             //-----------------------------------------------------------------------//
             //-----------------------------------------------------------------------//
@@ -49,11 +48,10 @@ const certMastCtrl = (req, res) => {
 
                 if (err) {
                     console.log("Err : + ", err)
-                    response = {
+                    return res.status(500).send(JSON.stringify(response = {
                         err: true,
                         message: 'fail fetch!',
-                    }
-                    return res.status(500).send(JSON.stringify(response))
+                    }))
                 }
                 //
                 if (security_code && folio_no) {
@@ -84,7 +82,7 @@ const certMastCtrl = (req, res) => {
                 } else {
                     response = {
                         err: true,
-                        message: 'folio number or security_code missing',   
+                        message: 'folio number or security_code missing',
                     }
                     res.status(200).send(JSON.stringify(response))
                 }
@@ -112,7 +110,7 @@ const certMastCtrl = (req, res) => {
                                     err: false,
                                     security_type_desc,
                                     folio_det: result,
-                                    data: result_data, 
+                                    data: result_data,
                                     message: 'success!'
                                 }
                                 res.status(200).send(JSON.stringify(response))
