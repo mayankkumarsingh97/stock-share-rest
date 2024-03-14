@@ -29,7 +29,7 @@ const nameAddressQuery = (req, res) => {
             //
             //
             let query = `
-            SELECT fm.folio_number, fm.name_first, fm.name_middle, fm.name_last, fm.ADD1, htb.HOLDING,
+            SELECT fm.folio_number, fm.name_first, fm.name_middle, fm.name_last, fm.ADD1,fm.ADD2,fm.ADD3, htb.HOLDING,
             rownum as run  FROM folio_master fm Left Join holding_tab  htb on 
             fm.FOLIO_NUMBER = htb.folio_no 
             WHERE rownum < = :limit AND htb.security_code =1
@@ -79,7 +79,9 @@ const nameAddressQuery = (req, res) => {
                                 name_last: row[3],
                                 name_middle: row[2],
                                 ADD1: row[4],
-                                holding: row[5],
+                                ADD2: row[5],
+                                ADD3: row[6],
+                                holding: row[7],
                             };
                         });
                         //
