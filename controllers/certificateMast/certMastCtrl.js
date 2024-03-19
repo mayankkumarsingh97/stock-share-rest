@@ -9,17 +9,7 @@ const certMastCtrl = (req, res) => {
     const { dist_from, dist_to } = req.body
     const { transfer_number, transfer_date } = req.body
     const { seller_folio } = req.body
-
-    console.log(folio_no, 'folio_no')
-    console.log(security_code, 'security_code')
-    console.log(certificate_no, 'certificate_no')
-    console.log(tag, 'tag')
-    console.log(dist_from, 'dist_from')
-    console.log(dist_to, 'dist_to')
-    console.log(transfer_number, 'transfer_number')
-    console.log(transfer_date, 'transfer_date')
-    console.log(seller_folio, 'seller_folio')
-
+    //
     try {
         connectToOracle().then((connection) => {
             //
