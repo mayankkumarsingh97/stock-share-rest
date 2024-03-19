@@ -1,9 +1,7 @@
 //
 //
 var connectToOracle = require('../../config/db')
-// const redis = require('redis');
-// const client = redis.createClient();
-//
+
 //
 // --------------------------------------
 //To get folioController escoshare users
