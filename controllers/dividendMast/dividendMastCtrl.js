@@ -48,7 +48,6 @@ const dividendMastCtrl = (req, res) => {
                             if (!err) {
                                 if (results.rows.length > 0) {
                                     const result = results.rows.map(function (row) {
-                                        console.log(row[1],'date')
                                         return {
                                             description: row[0],
                                             date_of_payment: row[1],

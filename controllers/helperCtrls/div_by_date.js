@@ -29,11 +29,10 @@ const _get_Dividend_Det_By_Date_Ctrl = (req, res) => {
             `
 
             connection.execute(query, [folio_no], (err, results) => {
-                console.log(results,'resultssssssssssssssss')
+                //
                 //
                 if (!err) {
                     if (results.rows.length > 0) {
-
                         const result = {};
                         results.metaData.forEach((meta, index) => {
                             result[meta.name] = results.rows[0][index];
