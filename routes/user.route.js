@@ -19,6 +19,7 @@ const { dividendMastCtrl } = require('../controllers/dividendMast/dividendMastCt
 const { _get_Dividend_Det_By_Date_Ctrl } = require('../controllers/helperCtrls/div_by_date')
 //
 const { InterstMastCtrl } = require('../controllers/interstMast/interstMastCtrl')
+const { get_DP_CLI_Ctrl } = require('../controllers/helperCtrls/_getDP_CLI')
 //
 //---------------Login API----------------
 router.post('/escoshare/login/', loginController)
@@ -44,6 +45,11 @@ router.post('/dividend-master-get-det-by-date', _get_Dividend_Det_By_Date_Ctrl)
 //
 //
 router.post('/interest-master-query', InterstMastCtrl)
+//
+//
+router.post('/get-dpid-clientid', get_DP_CLI_Ctrl)
+//
+//
 //
 //
 module.exports = router

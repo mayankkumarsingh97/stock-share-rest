@@ -20,9 +20,10 @@ const InterstMastCtrl = (req, res) => {
 
     try {
         connectToOracle().then((connection) => {
-
+            //
             let query = `
-            select  dir_p.description,  dm.*
+            select  dir_p.description,  dm.date_of_payment,dm.security_code,dm.deb,
+            dm.net_interest_amount,dm.warrant_no,dm.micr_no,dm.status_code
             from interest_masters dm 
             Left Join dir_periods  dir_p on dm.date_of_payment = dir_p.date_of_payment 
             where    folio_no=:folio_no
@@ -44,14 +45,12 @@ const InterstMastCtrl = (req, res) => {
                                     description: row[0],
                                     date_of_payment: row[1],
                                     security_code: row[2],
-                                    shares: row[3],
-                                    net_dividend_amount: row[4],
-                                    micr_no: row[5],
-                                    status_code: row[6],
-                                    folio_no: row[7],
-                                    voice_mail_status: row[8],
+                                    deb: row[3],
+                                    net_interest_amount: row[4],
+                                    warrant_no: row[5],
+                                    micr_no: row[6],
+                                    status_code: row[7],
                                 };
-
                             });
 
                             let folio_det = {};
