@@ -7,7 +7,7 @@ const oracledb = require('oracledb');
 const InterstMastCtrl = (req, res) => {
     //
     const { folio_no } = req.body
-    console.log(folio_no, 'folio no')
+    // console.log(folio_no, 'folio no')
     //
     if (!folio_no) {
         //
@@ -20,6 +20,7 @@ const InterstMastCtrl = (req, res) => {
 
     try {
         connectToOracle().then((connection) => {
+            //
             //
             let query = `
             select  dir_p.description,  dm.date_of_payment,dm.security_code,dm.deb,
@@ -131,23 +132,3 @@ module.exports = { InterstMastCtrl }
 
 
 
-// const connectToOracle = require("../../config/db")
-// const { connect } = require("../../routes/user.route")
-
-// const InterstMastCtrl = (req, res) => {
-
-//     const { folio_no } = req.body
-
-//     try {
-//         connectToOracle().then
-
-//     } catch (err) {
-//     }
-
-
-// }
-
-
-// module.exports = {
-//     InterstMastCtrl
-// }

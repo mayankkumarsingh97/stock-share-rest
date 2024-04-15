@@ -6,13 +6,15 @@ const connectToOracle = require('../../config/db')
 //
 const nameAddressQuery = (req, res) => {
     //
-    const { folio_no, name_first, name_middle, name_last, holding } = req.body
+    const { folio_no, name_first, name_middle, name_last, holding, add1 } = req.body
+
+    //
     //
     const limit = req.body.limit || 200
     const page = req.body.page || 1
     //
     //
-    if (!folio_no && !name_first && !name_middle && !name_last && !holding) {
+    if (!folio_no && !name_first && !name_middle && !name_last && !holding && !add1) {
         //
         const response = {
             err: true,
@@ -42,20 +44,23 @@ const nameAddressQuery = (req, res) => {
                 SqlTot += folio_filter
             }
             //
-            const fs_name_filter = `AND fm.name_first LIKE UPPER('${name_first}%')`
+            //
+            const fs_name_filter = `AND fm.name_first LIKE UPPER(TRIM('${name_first}%'))`
+            //
+            //
             if (name_first) {
                 query += fs_name_filter
                 SqlTot += fs_name_filter
             }
             //
-            const md_name_filter = `AND fm.name_middle LIKE UPPER('${name_middle}%')`
+            const md_name_filter = `AND fm.name_middle LIKE UPPER(TRIM('${name_middle}%'))`
             if (name_middle) {
                 query += md_name_filter
                 SqlTot += md_name_filter
             }
             //
             //
-            const ls_name_filter = `AND fm.name_last LIKE UPPER('${name_last}%')`
+            const ls_name_filter = `AND fm.name_last LIKE UPPER(TRIM('${name_last}%'))`
             if (name_last) {
                 query += ls_name_filter
                 SqlTot += ls_name_filter
@@ -66,6 +71,13 @@ const nameAddressQuery = (req, res) => {
             if (holding) {
                 query += holding_filter
                 SqlTot += holding_filter
+            }
+            //
+            //
+            const add1_filter = `AND  fm.ADD1 LIKE UPPER(TRIM('${add1}%'))`
+            if (add1) {
+                query += add1_filter
+                SqlTot += add1_filter
             }
             //
             connection.execute(query, [limit], (err, results) => {
@@ -107,7 +119,7 @@ const nameAddressQuery = (req, res) => {
                             }
                         })
 
-                    }//if no data aga. input....
+                    }//
                     else {
                         response = {
                             err: true,

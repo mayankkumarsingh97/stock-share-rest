@@ -21,9 +21,14 @@ const { _get_Dividend_Det_By_Date_Ctrl } = require('../controllers/helperCtrls/d
 const { InterstMastCtrl } = require('../controllers/interstMast/interstMastCtrl')
 const { get_DP_CLI_Ctrl } = require('../controllers/helperCtrls/_getDP_CLI')
 //
+const { _getPhyHol } = require('../utils/_getPhyHol')
+//
+//
+//
 //---------------Login API----------------
 router.post('/escoshare/login/', loginController)
 //
+router.post('/get-pysi-holding', _getPhyHol)
 //
 //--------- Routes i.e endpoints escoshare--------
 router.get('/escoshare/users/', userController)
@@ -36,6 +41,7 @@ router.post('/name/address/holding/', nameAddressQuery)
 router.post('/security/type/', securityTypeCtrl)
 //
 router.post('/etl-certificate-master', ETL_mast_ctrl)
+//
 router.post('/certificate-master', certMastCtrl)
 
 //
@@ -48,6 +54,7 @@ router.post('/interest-master-query', InterstMastCtrl)
 //
 //
 router.post('/get-dpid-clientid', get_DP_CLI_Ctrl)
+
 //
 //
 //
