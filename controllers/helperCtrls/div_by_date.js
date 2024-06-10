@@ -25,7 +25,7 @@ const _get_Dividend_Det_By_Date_Ctrl = (req, res) => {
             select  dir_p.description,  dm.*
             from dividend_masters dm 
             Left Join dir_periods  dir_p on dm.date_of_payment = dir_p.date_of_payment 
-            where    folio_no=:folio_no  and dm.date_of_payment='${date}'
+            where  folio_no=:folio_no  and dm.date_of_payment='${date}'
             `
 
             connection.execute(query, [folio_no], (err, results) => {
